@@ -5,10 +5,11 @@ from util import *
 
 # 2D
 
-def plot2d(string, alpha, delta=1, init_direction=np.array([1., 0]), color='k'):
+def plot2d(string, alpha, delta=1, init_direction=np.array([1., 0]), colors={}):
 	plt.gca().set_aspect('equal', adjustable='box')
 	pos = np.zeros(2, dtype=np.float64)
 	direction = init_direction
+	color = 'k'
 	saved_states = []
 	for x in string:
 		if x == 'F':
@@ -29,6 +30,8 @@ def plot2d(string, alpha, delta=1, init_direction=np.array([1., 0]), color='k'):
 			saved_states.append((pos, direction))
 		elif x == ']':
 			pos, direction = saved_states.pop()
+		elif x in colors:
+			color = colors[x]
 	plt.show()
 
 # 3D
@@ -42,11 +45,12 @@ def axis_equal_3d(ax):
     for ctr, dim in zip(centers, 'xyz'):
         getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
 
-def plot3d(string, alpha, delta=1, init_direction=np.array([1., 0, 0]), color='k'):
+def plot3d(string, alpha, delta=1, init_direction=np.array([1., 0, 0]), colors={}):
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
 	pos = np.zeros(3, dtype=np.float64)
 	direction = init_direction
+	color = 'k'
 	saved_states = []
 	for x in string:
 		if x == 'F':
@@ -77,5 +81,7 @@ def plot3d(string, alpha, delta=1, init_direction=np.array([1., 0, 0]), color='k
 			saved_states.append((pos, direction))
 		elif x == ']':
 			pos, direction = saved_states.pop()
+		elif x in colors:
+			color = colors[x]
 	axis_equal_3d(ax)
 	plt.show()
